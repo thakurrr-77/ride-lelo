@@ -173,3 +173,123 @@ Status: 500 Internal Server Error
   "error": "Internal server error"
 }
 ```
+
+---
+
+## Profile
+
+### Description
+
+Returns the authenticated user's profile information. This endpoint is protected and requires a valid JWT (sent as `Authorization: Bearer <token>` or as a cookie).
+
+### HTTP Method
+
+GET /users/profile
+
+### Request body
+
+None.
+
+### Example response (success)
+
+Status: 200 OK
+
+```json
+{
+  "user": {
+    "_id": "<user id>",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "socketId": null
+  }
+}
+```
+
+### Example response (no token / unauthorized)
+
+Status: 401 Unauthorized
+
+```json
+{
+  "message": "Access denied. No token provided"
+}
+```
+
+### Example response (invalid token / authentication)
+
+Status: 401 Unauthorized
+
+```json
+{
+  "message": "Invalid token"
+}
+```
+
+### Example response (server error)
+
+Status: 500 Internal Server Error
+
+```json
+{
+  "error": "Internal server error"
+}
+```
+
+---
+
+## Logout
+
+### Description
+
+Logs out the authenticated user. Implementation may blacklist the current JWT (so it cannot be used again) and/or clear the auth cookie. This endpoint is protected and requires a valid JWT.
+
+### HTTP Method
+
+GET /users/logout
+
+### Request body
+
+None.
+
+### Example response (success)
+
+Status: 200 OK
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Example response (no token / unauthorized)
+
+Status: 401 Unauthorized
+
+```json
+{
+  "message": "Access denied. No token provided"
+}
+```
+
+### Example response (token blacklisted / unauthorized)
+
+Status: 401 Unauthorized
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+### Example response (server error)
+
+Status: 500 Internal Server Error
+
+```json
+{
+  "error": "Internal server error"
+}
+```
