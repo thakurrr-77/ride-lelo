@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const userRoutes = require('./routes/user.routes.js')
+const captianRoutes = require('./routes/captian.rotes.js')
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
@@ -21,5 +22,6 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/users',userRoutes)
+app.use('/captains',captianRoutes)
 module.exports = app
 
