@@ -22,6 +22,6 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/users',userRoutes)
-app.use('/captains',captianRoutes)
+app.use('/captians',captianRoutes)
 module.exports = app
 

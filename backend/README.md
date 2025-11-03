@@ -91,6 +91,162 @@ Status: 500 Internal Server Error
 ```json
 { "error": "Internal server error" }
 ```
+ 
+---
+ 
+## Captian Login
+ 
+### Description
+ 
+Authenticates a captian using email and password. On success, returns a JWT token, sets a `token` cookie, and returns the captian object.
+ 
+### HTTP Method
+ 
+POST /captian/login
+ 
+### Request body
+ 
+```json
+{ "email": "string", "password": "string" }
+```
+ 
+Notes:
+ 
+- `email` — required, must be a valid email.
+- `password` — required, minimum length 6 characters.
+ 
+### Example response (success)
+ 
+Status: 200 OK
+ 
+```json
+{ "token": "<JWT token string>", "captian": { "_id": "<captian id>", "fullname": { "firstname": "John", "lastname": "Doe" }, "email": "john@example.com", "vehicle": { "plate": "AB1234", "color": "red", "capacity": 4, "vehicleType": "car" }, "status": "inactive", "socketId": null } }
+```
+ 
+### Example response (validation error)
+ 
+Status: 400 Bad Request
+ 
+```json
+{ "errors": [ { "msg": "Please provide a valid email", "param": "email", "location": "body" } ] }
+```
+ 
+### Example response (authentication error)
+ 
+Status: 400 or 401
+ 
+- If email not found: 400 Bad Request
+- If password mismatch: 401 Unauthorized
+ 
+Example:
+ 
+```json
+{ "message": "Invalid email or password" }
+```
+ 
+### Example response (server error)
+ 
+Status: 500 Internal Server Error
+ 
+```json
+{ "error": "Internal server error" }
+```
+ 
+---
+ 
+## Captian Profile
+ 
+### Description
+ 
+Returns the authenticated captian's profile information. This endpoint is protected and requires a valid JWT (sent as `Authorization: Bearer <token>` or as a cookie).
+ 
+### HTTP Method
+ 
+GET /captian/profile
+ 
+### Request body
+ 
+None.
+ 
+### Example response (success)
+ 
+Status: 200 OK
+ 
+```json
+{ "captian": { "_id": "<captian id>", "fullname": { "firstname": "John", "lastname": "Doe" }, "email": "john@example.com", "vehicle": { "plate": "AB1234", "color": "red", "capacity": 4, "vehicleType": "car" }, "status": "inactive", "socketId": null } }
+```
+ 
+### Example response (no token / unauthorized)
+ 
+Status: 401 Unauthorized
+ 
+```json
+{ "message": "Access denied. No token provided" }
+```
+ 
+### Example response (invalid token / authentication)
+ 
+Status: 401 Unauthorized
+ 
+```json
+{ "message": "Unauthorized" }
+```
+ 
+### Example response (server error)
+ 
+Status: 500 Internal Server Error
+ 
+```json
+{ "error": "Internal server error" }
+```
+ 
+---
+ 
+## Captian Logout
+ 
+### Description
+ 
+Logs out the authenticated captian. Implementation blacklists the current JWT and clears the auth cookie.
+ 
+### HTTP Method
+ 
+GET /captian/logout
+ 
+### Request body
+ 
+None.
+ 
+### Example response (success)
+ 
+Status: 200 OK
+ 
+```json
+{ "message": "Logged out successfully" }
+```
+ 
+### Example response (no token / unauthorized)
+ 
+Status: 401 Unauthorized
+ 
+```json
+{ "message": "Access denied. No token provided" }
+```
+ 
+### Example response (token blacklisted / unauthorized)
+ 
+Status: 401 Unauthorized
+ 
+```json
+{ "message": "Unauthorized" }
+```
+ 
+### Example response (server error)
+ 
+Status: 500 Internal Server Error
+ 
+```json
+{ "error": "Internal server error" }
+```
 
 ---
 
